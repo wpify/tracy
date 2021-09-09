@@ -1,0 +1,20 @@
+{
+    "name": "wpify/tracy",
+    "description": "WPify Tracy",
+    "type": "library",
+    "license": "GPL-2.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "Wpify\\Tracy\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "WPify",
+            "email": "info@wpify.io"
+        }
+    ],
+    "require": {
+        "tracy/tracy": "^2.8"
+    }
+}
