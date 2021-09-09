@@ -2,7 +2,9 @@
 
 use Wpify\Tracy\Tracy;
 
-add_action( "init", "wpify_tracy_init", 2 );
-function wpify_tracy_init() {
-	new Tracy();
+if (function_exists('add_action')) {
+	add_action( "init", "wpify_tracy_init", 2 );
+	function wpify_tracy_init() {
+		new Tracy();
+	}
 }
