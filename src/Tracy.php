@@ -20,11 +20,15 @@ class Tracy {
 			return; // for IE compatibility WordPress media upload
 		}
 
-		if (defined('WP_DEBUG') && WP_DEBUG === false) {
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === false ) {
 			return;
 		}
 
-		if (defined('WP_DEBUG_DISPLAY') && WP_DEBUG_DISPLAY === false) {
+		if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY === false ) {
+			return;
+		}
+
+		if ( defined( 'WPIFY_TRACY_DISABLE' ) && WPIFY_TRACY_DISABLE ) {
 			return;
 		}
 
@@ -40,17 +44,14 @@ class Tracy {
 			WpCurrentScreenPanel::class,
 		];
 
-		$defaultSettings = [
-			"check-is-user-logged-in"  => defined( "WP_TRACY_CHECK_IS_USER_LOGGED_IN" ) ? WP_TRACY_CHECK_IS_USER_LOGGED_IN : "off",
-			"only-for-user-id"         => defined( "WP_TRACY_ONLY_FOR_USER_ID" ) ? WP_TRACY_ONLY_FOR_USER_ID : null,
-			"debugger-mode"            => defined( "WP_TRACY_ENABLE_MODE" ) ? WP_TRACY_ENABLE_MODE : "detect",
-			"panels-classes"           => $defaultPanelsClasses,
-			"panels-filtering-allowed" => defined( "WP_TRACY_PANELS_FILTERING_ALLOWED" ) ? WP_TRACY_PANELS_FILTERING_ALLOWED : "on",
+		$panels   = apply_filters( 'wpify_tracy_panels', $defaultPanelsClasses );
+		$settings = [
+			"check-is-user-logged-in"  => defined( "WPIFY_TRACY_CHECK_IS_USER_LOGGED_IN" ) ? WPIFY_TRACY_CHECK_IS_USER_LOGGED_IN : "off",
+			"only-for-user-id"         => defined( "WPIFY_TRACY_ONLY_FOR_USER_ID" ) ? WPIFY_TRACY_ONLY_FOR_USER_ID : null,
+			"debugger-mode"            => defined( "WPIFY_TRACY_ENABLE_MODE" ) ? WPIFY_TRACY_ENABLE_MODE : "detect",
+			"panels-classes"           => $panels,
+			"panels-filtering-allowed" => defined( "WPIFY_TRACY_PANELS_FILTERING_ALLOWED" ) ? WPIFY_TRACY_PANELS_FILTERING_ALLOWED : "on",
 		];
-
-		$userSettings = get_option( "wp-tracy-user-settings", [] );
-
-		$settings = wp_parse_args( $userSettings, $defaultSettings );
 
 		if ( $settings["check-is-user-logged-in"] === "on" ) {
 			$isUserLoggedIn = is_user_logged_in();
@@ -74,7 +75,8 @@ class Tracy {
 				$debugMode = Debugger::DETECT;
 				break;
 		}
-		Debugger::enable( $debugMode ); // hooray, enabling debugging using Tracy
+
+		Debugger::enable( $debugMode );
 
 		$panelsClasses = $settings["panels-classes"];
 		if ( ! is_array( $panelsClasses ) ) {
