@@ -20,6 +20,14 @@ class Tracy {
 			return; // for IE compatibility WordPress media upload
 		}
 
+		if (defined('WP_DEBUG') && WP_DEBUG === false) {
+			return;
+		}
+
+		if (defined('WP_DEBUG_DISPLAY') && WP_DEBUG_DISPLAY === false) {
+			return;
+		}
+
 		$defaultPanelsClasses = [
 			WpPanel::class,
 			WpUserPanel::class,
@@ -30,7 +38,7 @@ class Tracy {
 			WpRolesPanel::class,
 			WpRewritePanel::class,
 			WpCurrentScreenPanel::class,
-		]; // in the correct order
+		];
 
 		$defaultSettings = [
 			"check-is-user-logged-in"  => defined( "WP_TRACY_CHECK_IS_USER_LOGGED_IN" ) ? WP_TRACY_CHECK_IS_USER_LOGGED_IN : "off",
