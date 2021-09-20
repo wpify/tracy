@@ -20,18 +20,20 @@ class Tracy {
 			return; // for IE compatibility WordPress media upload
 		}
 
-		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === false ) {
-			return;
-		}
+		if (!defined('WPIFY_TRACY_ENABLE')) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === false ) {
+				return;
+			}
 
-		if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY === false ) {
-			return;
-		}
+			if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY === false ) {
+				return;
+			}
 
-		if ( defined( 'WPIFY_TRACY_DISABLE' ) && WPIFY_TRACY_DISABLE ) {
-			return;
+			if ( defined( 'WPIFY_TRACY_DISABLE' ) && WPIFY_TRACY_DISABLE ) {
+				return;
+			}
 		}
-
+		
 		$defaultPanelsClasses = [
 			WpPanel::class,
 			WpUserPanel::class,
