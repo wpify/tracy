@@ -20,7 +20,7 @@ class Tracy {
 			return; // for IE compatibility WordPress media upload
 		}
 
-		if (!defined('WPIFY_TRACY_ENABLE')) {
+		if ( ! defined( 'WPIFY_TRACY_ENABLE' ) ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === false ) {
 				return;
 			}
@@ -33,7 +33,7 @@ class Tracy {
 				return;
 			}
 		}
-		
+
 		$defaultPanelsClasses = [
 			WpPanel::class,
 			WpUserPanel::class,
@@ -76,6 +76,9 @@ class Tracy {
 			default:
 				$debugMode = Debugger::DETECT;
 				break;
+		}
+		if ( defined( 'WPIFY_TRACY_ENABLE' ) ) {
+			$debugMode = Debugger::DEVELOPMENT;
 		}
 
 		Debugger::enable( $debugMode );
