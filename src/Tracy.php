@@ -46,7 +46,7 @@ class Tracy {
 			WpCurrentScreenPanel::class,
 		];
 
-		$panels   = apply_filters( 'wpify_tracy_panels', $defaultPanelsClasses );
+		$panels   = function_exists( 'apply_filters' ) ? apply_filters( 'wpify_tracy_panels', $defaultPanelsClasses ) : $defaultPanelsClasses;
 		$settings = [
 			"check-is-user-logged-in"  => defined( "WPIFY_TRACY_CHECK_IS_USER_LOGGED_IN" ) ? WPIFY_TRACY_CHECK_IS_USER_LOGGED_IN : "off",
 			"only-for-user-id"         => defined( "WPIFY_TRACY_ONLY_FOR_USER_ID" ) ? WPIFY_TRACY_ONLY_FOR_USER_ID : null,
@@ -91,7 +91,7 @@ class Tracy {
 
 		// panels (custom) filtering
 		if ( $settings["panels-filtering-allowed"] === "on" ) {
-			$panelsClasses = apply_filters( "wp_tracy_panels_filter", $panelsClasses );
+			$panelsClasses   = function_exists( 'apply_filters' ) ? apply_filters( 'wpify_tracy_panels_filter', $panelsClasses ) : $panelsClasses;
 			if ( ! is_array( $panelsClasses ) ) {
 				trigger_error( "\"wp_tracy_panels_filter\" must return type of array.", E_USER_WARNING );
 				exit;
